@@ -1,0 +1,10 @@
+#!/bin/bash -e
+
+if [ $(id -u) -eq 0 ]; then
+    mkdir -p $SNAP_COMMON/etc/neutron.conf.d
+    sed -e "s|__SNAP_DATA__|$SNAP_COMMON|g" \
+        -e "s|__SNAP__|$SNAP|g" \
+        $SNAP/templates/neutron/neutron-snap.conf > $SNAP_COMMON/etc/neutron.conf.d/neutron-snap.conf
+fi
+
+exec /usr/bin/env "$1" --config-file=$SNAP/etc/neutron/neutron.conf --config-dir=$SNAP_COMMON/etc/neutron.conf.d "${@:2}"

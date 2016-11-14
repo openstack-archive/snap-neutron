@@ -1,0 +1,36 @@
+name: neutron
+version: 8.3.1snapshot
+summary: OpenStack Network Service (neutron)
+description: OpenStack Network Service (neutron)
+confinement: strict
+grade: devel
+
+apps:
+  api:
+    command: bin/run neutron-server
+    daemon: simple
+    plugs:
+      - network
+      - network-bind
+  manage:
+    command: bin/run neutron-db-manage
+    plugs:
+      - network
+
+parts:
+  neutron:
+    plugin: python
+    python-version: python2
+    source: http://tarballs.openstack.org/neutron/neutron-stable-mitaka.tar.gz
+    python-packages:
+      - pymysql
+    constraints: https://raw.githubusercontent.com/openstack/requirements/stable/mitaka/upper-constraints.txt
+    build-packages:
+      - libffi-dev
+      - libssl-dev
+      - pkg-config
+  config:
+    after:
+      - neutron
+    plugin: dump
+    source: conf
