@@ -1,5 +1,5 @@
 name: neutron
-version: 8.3.1snapshot
+version: ocata
 summary: OpenStack Network Service (neutron)
 description: OpenStack Network Service (neutron)
 confinement: strict
