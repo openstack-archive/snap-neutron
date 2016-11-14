@@ -7,13 +7,13 @@ grade: devel
 
 apps:
   api:
-    command: bin/run neutron-server
+    command: snap-openstack neutron-server
     daemon: simple
     plugs:
       - network
       - network-bind
   manage:
-    command: bin/run neutron-db-manage
+    command: snap-openstack neutron-db-manage
     plugs:
       - network
 
@@ -24,13 +24,36 @@ parts:
     source: http://tarballs.openstack.org/neutron/neutron-master.tar.gz
     python-packages:
       - pymysql
+      - git+https://github.com/openstack-snaps/snap.openstack#egg=snap.openstack
     constraints: https://raw.githubusercontent.com/openstack/requirements/master/upper-constraints.txt
     build-packages:
       - libffi-dev
       - libssl-dev
       - pkg-config
-  config:
+  templates:
     after:
       - neutron
     plugin: dump
     source: conf
+  # TODO: replace below with scriplets once implemented in snapcraft
+  # TODO: need to generate config files from neutron/etc/oslo-config-generator/*
+  config:
+    after:
+      - neutron
+    plugin: dump
+    source: http://tarballs.openstack.org/neutron/neutron-master.tar.gz
+    organize:
+      etc/*.conf: etc/neutron/
+      etc/*.ini: etc/neutron/
+      etc/*.json: etc/neutron/
+      etc/rootwrap.d/*.filters: etc/neutron/rootwrap.d/
+      etc/plugins/ml2/*.ini: etc/neutron/plugins/ml2/
+    filesets:
+      etc:
+        - etc/neutron/*.conf
+        - etc/neutron/*.ini
+        - etc/neutron/*.json
+        - etc/neutron/rootwrap.d/*.filters
+        - etc/neutron/plugins/ml2/*.ini
+    stage: [$etc]
+    snap: [$etc]
