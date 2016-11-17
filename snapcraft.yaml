@@ -33,27 +33,32 @@ parts:
   templates:
     after:
       - neutron
-    plugin: dump
+    plugin: openstack
     source: conf
   # TODO: replace below with scriplets once implemented in snapcraft
-  # TODO: need to generate config files from neutron/etc/oslo-config-generator/*
   config:
     after:
       - neutron
-    plugin: dump
+    plugin: openstack
     source: http://tarballs.openstack.org/neutron/neutron-master.tar.gz
+    generate-config:
+      - tox -e genconfig
     organize:
       etc/*.conf: etc/neutron/
       etc/*.ini: etc/neutron/
       etc/*.json: etc/neutron/
+      etc/*.sample: etc/neutron/
+      etc/neutron.conf.sample: etc/neutron/neutron.conf
+      etc/neutron/plugins/ml2/ml2_conf.ini.sample: etc/neutron/plugins/ml2/ml2_conf.ini
       etc/rootwrap.d/*.filters: etc/neutron/rootwrap.d/
-      etc/plugins/ml2/*.ini: etc/neutron/plugins/ml2/
     filesets:
       etc:
         - etc/neutron/*.conf
         - etc/neutron/*.ini
         - etc/neutron/*.json
-        - etc/neutron/rootwrap.d/*.filters
+        - etc/neutron/*.sample
         - etc/neutron/plugins/ml2/*.ini
+        - etc/neutron/plugins/ml2/*.sample
+        - etc/neutron/rootwrap.d/*.filters
     stage: [$etc]
     snap: [$etc]
