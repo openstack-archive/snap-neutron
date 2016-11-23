@@ -33,32 +33,21 @@ parts:
   templates:
     after:
       - neutron
-    plugin: openstack
-    source: conf
+    plugin: dump
+    source: snap
   # TODO: replace below with scriplets once implemented in snapcraft
   config:
     after:
       - neutron
-    plugin: openstack
+    plugin: dump
     source: http://tarballs.openstack.org/neutron/neutron-master.tar.gz
-    generate-config:
-      - tox -e genconfig
     organize:
       etc/*.conf: etc/neutron/
       etc/*.ini: etc/neutron/
       etc/*.json: etc/neutron/
-      etc/*.sample: etc/neutron/
-      etc/neutron.conf.sample: etc/neutron/neutron.conf
-      etc/neutron/plugins/ml2/ml2_conf.ini.sample: etc/neutron/plugins/ml2/ml2_conf.ini
-      etc/rootwrap.d/*.filters: etc/neutron/rootwrap.d/
+      etc/rootwrap.d/*: etc/neutron/rootwrap.d/
     filesets:
       etc:
-        - etc/neutron/*.conf
-        - etc/neutron/*.ini
-        - etc/neutron/*.json
-        - etc/neutron/*.sample
-        - etc/neutron/plugins/ml2/*.ini
-        - etc/neutron/plugins/ml2/*.sample
-        - etc/neutron/rootwrap.d/*.filters
+        - etc/neutron/*
     stage: [$etc]
     snap: [$etc]
