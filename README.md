@@ -23,6 +23,9 @@ snap:
     etc
     ├── neutron
     │   ├── neutron.conf
+    │   └── plugins
+    │       └── ml2
+    │           └── ml2_conf.ini
     └── neutron.conf.d
         ├── database.conf
         ├── neutron-snap.conf
@@ -31,7 +34,8 @@ snap:
 The neutron snap can be configured in a few ways.
 
 Firstly the neutron-server daemon will detect and read `etc/neutron/neutron.conf`
-if it exists so you can just place all configuration in this file.
+and `etc/neutron/plugins/ml2/m2_conf.ini` if they exists so you can reuse your
+existing tooling to write to these two files for classic style configuration.
 
 Alternatively the neutron-server daemon will load all configuration files from
 `etc/neutron.conf.d` - in the above example, database and keystone authtoken
