@@ -1,31 +1,34 @@
 setup:
   dirs:
-    - "{snap_common}/etc/neutron.conf.d"
-    - "{snap_common}/etc/neutron"
+    - "{snap_common}/etc/neutron/conf.d"
     - "{snap_common}/etc/neutron/plugins/ml2"
     - "{snap_common}/etc/neutron/policy.d"
     - "{snap_common}/etc/neutron/rootwrap.d"
-    - "{snap_common}/log"
-    - "{snap_common}/lock"
+    - "{snap_common}/lib/neutron"
+    - "{snap_common}/log/neutron"
+    - "{snap_common}/lock/neutron"
+  symlinks:
+    "{snap_common}/etc/neutron": /etc/neutron
+    "{snap_common}/lib/neutron": /var/lib/neutron
+    "{snap_common}/log/neutron": /var/log/neutron
+    "{snap_common}/lock/neutron": /var/lock/neutron
   templates:
-    "neutron-snap.conf.j2": "{snap_common}/etc/neutron.conf.d/neutron-snap.conf"
+    neutron-snap.conf.j2: "{snap_common}/etc/neutron/conf.d/neutron-snap.conf"
+  copyfiles:
+    "{snap}/etc/neutron": "{snap_common}/etc/neutron"
 entry_points:
   neutron-db-manage:
     binary: neutron-db-manage
     config-files:
-      - "{snap}/etc/neutron/neutron.conf"
-      - "{snap_common}/etc/neutron/neutron.conf"
-      - "{snap}/etc/neutron/plugins/ml2/ml2_conf.ini"
-      - "{snap_common}/etc/neutron/plugins/ml2/ml2_conf.ini"
+      - "/etc/neutron/neutron.conf"
+      - "/etc/neutron/plugins/ml2/ml2_conf.ini"
     config-dirs:
-      - "{snap_common}/etc/neutron.conf.d"
+      - "/etc/neutron/conf.d"
   neutron-server:
     binary: neutron-server
     config-files:
-      - "{snap}/etc/neutron/neutron.conf"
-      - "{snap_common}/etc/neutron/neutron.conf"
-      - "{snap}/etc/neutron/plugins/ml2/ml2_conf.ini"
-      - "{snap_common}/etc/neutron/plugins/ml2/ml2_conf.ini"
+      - "/etc/neutron/neutron.conf"
+      - "/etc/neutron/plugins/ml2/ml2_conf.ini"
     config-dirs:
-      - "{snap_common}/etc/neutron.conf.d"
-    log-file: "{snap_common}/log/neutron-server.log"
+      - "/etc/neutron/conf.d"
+    log-file: "/var/log/neutron/neutron-server.log"
