@@ -9,12 +9,12 @@ setup:
     - "{snap_common}/lock"
   templates:
     neutron-snap.conf.j2: "{snap_common}/etc/neutron/conf.d/neutron-snap.conf"
-  copyfiles:
-    "{snap}/etc/neutron": "{snap_common}/etc/neutron"
 entry_points:
   neutron-db-manage:
     binary: "{snap}/bin/neutron-db-manage"
     config-files:
+      - "{snap}/etc/neutron/neutron.conf"
+      - "{snap}/etc/neutron/plugins/ml2/ml2_conf.ini"
       - "{snap_common}/etc/neutron/neutron.conf"
       - "{snap_common}/etc/neutron/plugins/ml2/ml2_conf.ini"
     config-dirs:
@@ -22,6 +22,8 @@ entry_points:
   neutron-server:
     binary: "{snap}/bin/neutron-server"
     config-files:
+      - "{snap}/etc/neutron/neutron.conf"
+      - "{snap}/etc/neutron/plugins/ml2/ml2_conf.ini"
       - "{snap_common}/etc/neutron/neutron.conf"
       - "{snap_common}/etc/neutron/plugins/ml2/ml2_conf.ini"
     config-dirs:
