@@ -57,7 +57,7 @@ parts:
       etc:
         - etc/neutron/*
     stage: [$etc]
-    snap: [$etc]
+    prime: [$etc]
   python:
     source: https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tar.xz
     plugin: autotools

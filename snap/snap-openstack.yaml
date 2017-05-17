@@ -1,5 +1,10 @@
 setup:
+  users:
+    neutron: [neutron]
+  default_owner: "root:neutron"
   dirs:
+    - "{snap_common}/etc"
+    - "{snap_common}/etc/neutron"
     - "{snap_common}/etc/neutron/conf.d"
     - "{snap_common}/etc/neutron/plugins/ml2"
     - "{snap_common}/etc/neutron/policy.d"
@@ -9,6 +14,10 @@ setup:
     - "{snap_common}/lock"
   templates:
     neutron-snap.conf.j2: "{snap_common}/etc/neutron/conf.d/neutron-snap.conf"
+  rchown:
+    "{snap_common}/lock": "neutron:neutron"
+    "{snap_common}/log": "neutron:neutron"
+    "{snap_common}/lib": "neutron:neutron"
 entry_points:
   neutron-db-manage:
     binary: "{snap}/bin/neutron-db-manage"
@@ -19,6 +28,8 @@ entry_points:
       - "{snap_common}/etc/neutron/plugins/ml2/ml2_conf.ini"
     config-dirs:
       - "{snap_common}/etc/neutron/conf.d"
+    run-as:
+      neutron: [neutron]
   neutron-server:
     binary: "{snap}/bin/neutron-server"
     config-files:
@@ -29,3 +40,5 @@ entry_points:
     config-dirs:
       - "{snap_common}/etc/neutron/conf.d"
     log-file: "{snap_common}/log/neutron-server.log"
+    run-as:
+      neutron: [neutron]
