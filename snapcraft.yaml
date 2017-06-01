@@ -36,14 +36,17 @@ parts:
       - -usr/bin/pydoc
       - -usr/bin/python2.7
       - -usr/lib/python2.7
-    install:
+    install: |
       touch $SNAPCRAFT_PART_INSTALL/lib/python2.7/site-packages/paste/__init__.py
       touch $SNAPCRAFT_PART_INSTALL/lib/python2.7/site-packages/repoze/__init__.py
+      PATH=$SNAPCRAFT_PART_INSTALL/usr/bin/python2.7:$SNAPCRAFT_PART_INSTALL/bin/:$PATH \
+        PYTHONPATH=$SNAPCRAFT_PART_INSTALL/lib/python2.7/site-packages/ \
+        tools/generate_config_file_samples.sh
+      cp -R etc/ $SNAPCRAFT_PART_INSTALL/etc/neutron/samples
   templates:
     after: [neutron]
     plugin: dump
     source: snap
-  # TODO: replace below with scriplets once implemented in snapcraft
   config:
     after: [neutron]
     plugin: dump
