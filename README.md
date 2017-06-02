@@ -10,67 +10,99 @@ snap based OpenStack deployment.
 
 The neutron snap can be installed directly from the snap store:
 
-    sudo snap install [--edge] neutron
+    sudo snap install --edge --classic neutron
 
-## Configuring Neutron
+The neutron snap is working towards publication across tracks for
+OpenStack releases. The edge channel for each track will contain the tip
+of the OpenStack project's master branch, with the beta, candidate and
+release channels being reserved for released versions. These three channels
+will be used to drive the CI process for validation of snap updates. This
+should result in an experience such as:
 
-Snaps run in an AppArmor and seccomp confined profile, so don't read
-configuration from `/etc/neutron` on the hosting operating system install.
+    sudo snap install --classic --channel=ocata/stable neutron
+    sudo snap install --classic --channel=pike/edge neutron
 
-This snap supports configuration via the $SNAP\_COMMON writable area for the
-snap:
+## Configuring neutron
 
-    etc
-    ├── neutron
-    │   ├── neutron.conf
-    │   └── plugins
-    │       └── ml2
-    │           └── ml2_conf.ini
-    └── neutron.conf.d
-        ├── database.conf
-        ├── neutron-snap.conf
-        └── keystone.conf
+The neutron snap gets its default configuration from the following $SNAP
+and $SNAP_COMMON locations:
 
-The neutron snap can be configured in a few ways.
+    /snap/neutron/current/etc/
+    └── neutron
+        ├── neutron.conf
+        └── plugins
+            └── ml2
+                └── ml2_conf.ini
 
-Firstly the neutron-server daemon will detect and read `etc/neutron/neutron.conf`
-and `etc/neutron/plugins/ml2/m2_conf.ini` if they exists so you can reuse your
-existing tooling to write to these two files for classic style configuration.
+    /var/snap/neutron/common/etc/
+    └── neutron
+        └── conf.d
+            └── neutron-snap.conf
 
-Alternatively the neutron-server daemon will load all configuration files from
-`etc/neutron.conf.d` - in the above example, database and keystone authtoken
-are configured  using configuration snippets in separate files in
-`etc/neutron.conf.d`.
+The neutron snap supports configuration updates via its $SNAP_COMMON writable
+area. The default neutron configuration can be overridden as follows:
 
-For reference, $SNAP\_COMMON is typically located under
-`/var/snap/neutron/common`.
+    /var/snap/neutron/common/etc/
+    └── neutron
+        ├── conf.d
+        │   ├── neutron-snap.conf
+        │   ├── database.conf
+        │   ├── keystone.conf
+        │   └── nova.conf
+        ├── neutron.conf
+        └── plugins
+            └── ml2
+                └── ml2_conf.ini
 
-## Managing Neutron
+The neutron configuration can be overridden or augmented by writing
+configuration snippets to files in the conf.d directory.
 
-Currently all snap binaries must be run as root; for example, to run the
-neutron-manage binary use:
+Alternatively, neutron configuration can be overridden by adding a
+neutron/neutron.conf file and a neutron/plugins/ml2/ml2_conf.ini file. If
+overriding in this way, you'll need to either point the neutron.conf file
+at additional config files located in $SNAP, or add those to $SNAP_COMMON
+as well.
 
-    sudo neutron.manage
+## Logging neutron
 
-## Restarting Neutron services
+The services for the neutron snap will log to its $SNAP_COMMON writable area:
+/var/snap/neutron/common/log.
 
-To restart the neutron-service service:
+## Managing neutron
 
-    sudo systemctl restart snap.neutron.api
+The neutron snap will drop privileges to run daemons and commands under
+a regular user named snap-neutron. Additionally, permissions and ownership
+of files and directories in /var/snap/neutron/common/ are modified to
+restrict access from other users.
 
-## Building the Neutron snap
+The neutron snap has alias support that enables use of the well-known
+neutron-db-manage command. To enable the alias, run the following prior to
+using the command:
+
+    sudo snap alias neutron.manage neutron-db-manage
+
+## Restarting neutron services
+
+To restart all neutron services:
+
+    sudo systemctl restart snap.neutron.*
+
+or an individual service can be restarted by dropping the wildcard and
+specifying the full service name.
+
+## Building the neutron snap
 
 Simply clone this repository and then install and run snapcraft:
 
-    git clone https://github.com/openstack-snaps/snap-neutron
+    git clone https://github.com/openstack/snap-neutron
     sudo apt install snapcraft
-    cd neutron
+    cd snap-neutron
     snapcraft
 
 ## Support
 
-Please report any bugs related to this snap on
+Please report any bugs related to this snap at:
 [Launchpad](https://bugs.launchpad.net/snap-neutron/+filebug).
 
-Alternatively you can find the OpenStack Snap team in `#openstack-snaps`
-on Freenode IRC.
+Alternatively you can find the OpenStack Snap team in `#openstack-snaps` on
+Freenode IRC.
