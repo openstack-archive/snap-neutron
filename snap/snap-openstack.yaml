@@ -24,6 +24,7 @@ entry_points:
     config-files:
       - "{snap}/etc/neutron/neutron.conf"
       - "{snap}/etc/neutron/plugins/ml2/ml2_conf.ini"
+    config-files-override:
       - "{snap_common}/etc/neutron/neutron.conf"
       - "{snap_common}/etc/neutron/plugins/ml2/ml2_conf.ini"
     config-dirs:
@@ -35,6 +36,7 @@ entry_points:
     config-files:
       - "{snap}/etc/neutron/neutron.conf"
       - "{snap}/etc/neutron/plugins/ml2/ml2_conf.ini"
+    config-files-override:
       - "{snap_common}/etc/neutron/neutron.conf"
       - "{snap_common}/etc/neutron/plugins/ml2/ml2_conf.ini"
     config-dirs:
