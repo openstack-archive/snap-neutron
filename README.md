@@ -37,7 +37,7 @@ and $SNAP_COMMON locations:
 
     /var/snap/neutron/common/etc/
     └── neutron
-        └── conf.d
+        └── neutron.conf.d
             └── neutron-snap.conf
 
 The neutron snap supports configuration updates via its $SNAP_COMMON writable
@@ -45,7 +45,7 @@ area. The default neutron configuration can be overridden as follows:
 
     /var/snap/neutron/common/etc/
     └── neutron
-        ├── conf.d
+        ├── neutron.conf.d
         │   ├── neutron-snap.conf
         │   ├── database.conf
         │   ├── keystone.conf
@@ -56,7 +56,7 @@ area. The default neutron configuration can be overridden as follows:
                 └── ml2_conf.ini
 
 The neutron configuration can be overridden or augmented by writing
-configuration snippets to files in the conf.d directory.
+configuration snippets to files in the neutron.conf.d directory.
 
 Alternatively, neutron configuration can be overridden by adding a
 neutron/neutron.conf file or a neutron/plugins/ml2/ml2_conf.ini file. If
