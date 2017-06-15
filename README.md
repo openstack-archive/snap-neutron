@@ -10,7 +10,7 @@ snap based OpenStack deployment.
 
 The neutron snap can be installed directly from the snap store:
 
-    sudo snap install --edge --classic neutron
+    sudo snap install --edge neutron
 
 The neutron snap is working towards publication across tracks for
 OpenStack releases. The edge channel for each track will contain the tip
@@ -20,8 +20,8 @@ will be published progressively to beta, then candidate, and then stable once
 CI validation completes for the channel. This should result in an experience
 such as:
 
-    sudo snap install --classic --channel=ocata/stable neutron
-    sudo snap install --classic --channel=pike/edge neutron
+    sudo snap install --channel=ocata/stable neutron
+    sudo snap install --channel=pike/edge neutron
 
 ## Configuring neutron
 
@@ -70,11 +70,6 @@ The services for the neutron snap will log to its $SNAP_COMMON writable area:
 /var/snap/neutron/common/log.
 
 ## Managing neutron
-
-The neutron snap will drop privileges to run daemons and commands under
-a regular user named snap-neutron. Additionally, permissions and ownership
-of files and directories in /var/snap/neutron/common/ are modified to
-restrict access from other users.
 
 The neutron snap has alias support that enables use of the well-known
 neutron-db-manage command. To enable the alias, run the following prior to
