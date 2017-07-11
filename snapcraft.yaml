@@ -13,8 +13,6 @@ apps:
       - network-bind
   manage:
     command: snap-openstack neutron-db-manage
-    aliases:
-      - neutron-db-manage
     plugs:
       - network
 

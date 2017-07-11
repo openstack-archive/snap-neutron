@@ -69,14 +69,6 @@ well.
 The services for the neutron snap will log to its $SNAP_COMMON writable area:
 /var/snap/neutron/common/log.
 
-## Managing neutron
-
-The neutron snap has alias support that enables use of the well-known
-neutron-db-manage command. To enable the alias, run the following prior to
-using the command:
-
-    sudo snap alias neutron.manage neutron-db-manage
-
 ## Restarting neutron services
 
 To restart all neutron services:
