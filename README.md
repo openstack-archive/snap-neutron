@@ -10,7 +10,7 @@ snap based OpenStack deployment.
 
 The neutron snap can be installed directly from the snap store:
 
-    sudo snap install --edge neutron
+    sudo snap install --channel=ocata/edge neutron
 
 The neutron snap is working towards publication across tracks for
 OpenStack releases. The edge channel for each track will contain the tip
