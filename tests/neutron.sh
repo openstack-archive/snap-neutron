@@ -2,6 +2,12 @@
 
 set -ex
 
+sudo mysql -u root << EOF
+CREATE DATABASE IF NOT EXISTS neutron;
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' \
+  IDENTIFIED BY 'neutron';
+EOF
+
 source $BASE_DIR/admin-openrc
 
 openstack user show neutron || {
