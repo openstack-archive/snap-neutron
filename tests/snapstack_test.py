@@ -19,6 +19,11 @@ class SnapstackTest(unittest.TestCase):
             snap='neutron',
             script_loc='./tests/',
             scripts=['neutron.sh'],
+            files=[
+                'etc/snap-neutron/neutron/neutron.conf.d/database.conf',
+                'etc/snap-neutron/neutron/neutron.conf.d/nova.conf',
+                'etc/snap-neutron/neutron/neutron.conf.d/keystone.conf',
+            ],
             snap_store=False)))
 
         # Execute the snapstack tests
