@@ -3,5 +3,5 @@
 set -x
 
 sudo mysql -u root << EOF
-DROP DATABASE neutron;
+DROP DATABASE IF EXISTS neutron;
 EOF
